@@ -237,7 +237,7 @@ function starsHtml(rating) {
   if (!rating) return '';
   const full = Math.floor(rating);
   const half = rating - full >= 0.5 ? '½' : '';
-  return '${'★'.repeat(full)}${half}';
+  return '★'.repeat(full) + half;
 }
 
 function applyFilters() {
