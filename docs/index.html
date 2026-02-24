@@ -4,130 +4,136 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Estate Sale Companies in Florida | EstateSaleRatings.com</title>
-<meta name="description" content="Curated list of top-rated estate sale companies in Florida. Filter by city, metro area, and rating.">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<meta name="description" content="Find the best estate sale companies in Florida. Curated listings with verified ratings and contact info.">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Georgia', serif; background: #f7f7f7; color: #222; }
-  header { background: #1e3d59; color: #fff; padding: 24px; text-align: center; }
-  header a { color: #fff; text-decoration: none; }
-  header h1 { font-size: 2rem; }
-  nav { background: #27496d; padding: 12px 24px; display: flex; gap: 16px; }
-  nav a { color: #cce0ff; text-decoration: none; font-weight: 500; }
-  nav a:hover { color: #fff; }
-  .container { max-width: 1200px; margin: 24px auto; padding: 0 16px; }
-  .filters { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
-  .filters input, .filters select { padding: 8px 12px; font-size: 0.95rem; border-radius: 4px; border: 1px solid #ccc; }
-  .company-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-  .company-card { background: #fff; border-radius: 8px; padding: 16px; border: 1px solid #ddd; transition: box-shadow 0.2s; display: flex; flex-direction: column; align-items: center; text-align: center; }
-  .company-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-  .company-card img { max-width: 100px; max-height: 60px; margin-bottom: 12px; object-fit: contain; }
-  .company-card h3 { font-size: 1.1rem; margin-bottom: 6px; color: #1e3d59; }
-  .location { color: #666; font-size: 0.85rem; margin-bottom: 4px; }
-  .rating { margin: 6px 0; font-size: 0.9rem; }
-  .stars { color: #f5a623; }
-  .contact a { color: #1e3d59; text-decoration: none; font-weight: bold; }
-  footer { background: #1e3d59; color: #ccc; text-align: center; padding: 24px; margin-top: 48px; font-size: 0.85rem; }
-  .badge { display: inline-block; background: #4caf50; color: #fff; padding: 2px 6px; font-size: 0.7rem; border-radius: 4px; margin-left: 4px; }
+/* Reset & layout */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Georgia', serif; background: #f8f8f8; color: #222; }
+header { background: #1f3b4d; color: #fff; padding: 20px; text-align: center; }
+header h1 { font-size: 2rem; margin-bottom: 8px; }
+header p { font-size: 1rem; color: #d1e0eb; }
+nav { background: #2b5e7f; padding: 10px 20px; text-align: center; }
+nav a { color: #fff; text-decoration: none; margin: 0 12px; font-weight: bold; }
+nav a:hover { text-decoration: underline; }
+.container { max-width: 1200px; margin: 20px auto; padding: 0 16px; }
+h2 { color: #1f3b4d; margin-bottom: 16px; }
+.filter-container { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+.filter-container select, .filter-container input { padding: 8px; font-size: 0.95rem; border-radius: 6px; border: 1px solid #ccc; }
+.company-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.company-card { background: #fff; border-radius: 10px; border: 1px solid #ddd; padding: 16px; display: flex; flex-direction: column; }
+.company-card img.logo { max-height: 50px; margin-bottom: 8px; object-fit: contain; }
+.company-card h3 { font-size: 1.1rem; color: #1f3b4d; margin-bottom: 6px; }
+.company-card .location { font-size: 0.85rem; color: #555; margin-bottom: 6px; }
+.company-card .rating { font-size: 0.9rem; margin-bottom: 8px; }
+.stars { color: #f5a623; }
+.review-count { color: #555; font-size: 0.8rem; margin-left: 4px; }
+.contact a { color: #2b5e7f; text-decoration: none; font-size: 0.85rem; }
+.contact a:hover { text-decoration: underline; }
+footer { background: #1f3b4d; color: #c0d6e4; text-align: center; padding: 20px; margin-top: 40px; font-size: 0.85rem; }
 </style>
 </head>
 <body>
-
 <header>
-  <a href="/"><h1>EstateSaleRatings.com</h1></a>
-  <p>Curated top-rated estate sale companies in Florida</p>
+  <h1>EstateSaleRatings.com</h1>
+  <p>Curated top estate sale companies in Florida</p>
 </header>
-
 <nav>
   <a href="/">Home</a>
   <a href="/florida/">Florida</a>
 </nav>
-
 <div class="container">
-  <div class="filters">
-    <input type="text" id="searchInput" placeholder="Search company name...">
+  <h2>Find Your Estate Sale Company</h2>
+  <div class="filter-container">
     <select id="cityFilter">
-      <option value="">All Cities</option>
+      <option value="">Select City</option>
     </select>
     <select id="ratingFilter">
-      <option value="">All Ratings</option>
-      <option value="5">5★</option>
-      <option value="4">4★ & up</option>
-      <option value="3">3★ & up</option>
+      <option value="">Minimum Rating</option>
+      <option value="5">5 Stars</option>
+      <option value="4.5">4.5 Stars</option>
+      <option value="4">4 Stars</option>
     </select>
+    <input type="text" id="nameFilter" placeholder="Search Company Name">
   </div>
-
-  <div class="company-grid" id="companyGrid">
-    <!-- Companies will appear here after applying filters -->
+  <div id="companyGrid" class="company-grid">
+    <!-- Companies appear here after filtering -->
   </div>
 </div>
-
 <footer>
-  &copy; 2026 EstateSaleRatings.com
+  &copy; 2026 EstateSaleRatings.com. All Rights Reserved.
 </footer>
 
-<script src="docs/companies.js"></script>
+<script src="companies.js"></script>
 <script>
-const grid = document.getElementById('companyGrid');
-const searchInput = document.getElementById('searchInput');
+// Populate city filter
+const citySet = new Set(allCompanies.map(c => c.cityName));
 const cityFilter = document.getElementById('cityFilter');
-const ratingFilter = document.getElementById('ratingFilter');
-
-// Populate city filter dropdown
-const cities = [...new Set(allCompanies.map(c => c.cityName))].sort();
-cities.forEach(city => {
-  const option = document.createElement('option');
-  option.value = city;
-  option.textContent = city;
-  cityFilter.appendChild(option);
+citySet.forEach(city => {
+  const opt = document.createElement('option');
+  opt.value = city;
+  opt.textContent = city;
+  cityFilter.appendChild(opt);
 });
 
-// Display companies based on filters
-function filterCompanies() {
-  const searchTerm = searchInput.value.toLowerCase();
-  const selectedCity = cityFilter.value;
-  const selectedRating = ratingFilter.value;
+// Filter logic
+const ratingFilter = document.getElementById('ratingFilter');
+const nameFilter = document.getElementById('nameFilter');
+const companyGrid = document.getElementById('companyGrid');
 
-  grid.innerHTML = ''; // clear grid
-
-  let filtered = allCompanies.filter(company => {
-    const matchesName = company.name.toLowerCase().includes(searchTerm);
-    const matchesCity = selectedCity ? company.cityName === selectedCity : true;
-    const matchesRating = selectedRating
-      ? selectedRating === "5"
-        ? company.rating >= 5
-        : selectedRating === "4"
-          ? company.rating >= 4
-          : company.rating >= 3
-      : true;
-    return matchesName && matchesCity && matchesRating;
+function displayCompanies() {
+  const city = cityFilter.value;
+  const minRating = parseFloat(ratingFilter.value) || 0;
+  const name = nameFilter.value.toLowerCase();
+  
+  const filtered = allCompanies.filter(c => {
+    return (!city || c.cityName === city) &&
+           (!minRating || c.rating >= minRating) &&
+           (!name || c.name.toLowerCase().includes(name));
   });
-
-  // Do not display any companies until a filter is applied
-  if (!searchTerm && !selectedCity && !selectedRating) return;
-
-  filtered.forEach(company => {
+  
+  companyGrid.innerHTML = '';
+  
+  if(filtered.length === 0) return; // Show nothing until filters applied
+  
+  filtered.forEach(c => {
     const card = document.createElement('div');
     card.className = 'company-card';
-    card.innerHTML = `
-      ${company.logoUrl ? `<img src="${company.logoUrl}" alt="${company.name} logo">` : ''}
-      <h3>${company.name}${company.orgPackageTypeName === "Premium" ? '<span class="badge">Verified</span>' : ''}</h3>
-      <div class="location">${company.cityName}, ${company.stateCode}</div>
-      <div class="rating"><span class="stars">${'★'.repeat(Math.round(company.rating))}</span> (${company.rating})</div>
-      <div class="contact">
-        ${company.phoneNumber ? `<span>${company.phoneNumber}</span>` : ''}
-        ${company.websiteUrl ? `<br><a href="${company.websiteUrl}" target="_blank">Visit Website</a>` : ''}
-      </div>
-    `;
-    grid.appendChild(card);
+    
+    if(c.logoUrl) {
+      const logo = document.createElement('img');
+      logo.src = c.logoUrl;
+      logo.alt = c.name;
+      logo.className = 'logo';
+      card.appendChild(logo);
+    }
+    
+    const h3 = document.createElement('h3');
+    h3.textContent = c.name;
+    card.appendChild(h3);
+    
+    const loc = document.createElement('div');
+    loc.className = 'location';
+    loc.textContent = c.cityName + ', ' + c.stateCode;
+    card.appendChild(loc);
+    
+    const ratingDiv = document.createElement('div');
+    ratingDiv.className = 'rating';
+    ratingDiv.innerHTML = `<span class="stars">${'★'.repeat(Math.round(c.rating))}</span> <span class="review-count">(${c.reviewCount} reviews)</span>`;
+    card.appendChild(ratingDiv);
+    
+    const contact = document.createElement('div');
+    contact.className = 'contact';
+    if(c.phoneNumber) contact.innerHTML += `<span>${c.phoneNumber}</span><br>`;
+    if(c.websiteUrl) contact.innerHTML += `<a href="${c.websiteUrl}" target="_blank" rel="nofollow">Website</a>`;
+    card.appendChild(contact);
+    
+    companyGrid.appendChild(card);
   });
 }
 
-// Event listeners
-searchInput.addEventListener('input', filterCompanies);
-cityFilter.addEventListener('change', filterCompanies);
-ratingFilter.addEventListener('change', filterCompanies);
+cityFilter.addEventListener('change', displayCompanies);
+ratingFilter.addEventListener('change', displayCompanies);
+nameFilter.addEventListener('input', displayCompanies);
 </script>
-
 </body>
 </html>
