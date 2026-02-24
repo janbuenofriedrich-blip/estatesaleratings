@@ -196,7 +196,12 @@ with open('docs/florida/index.html', 'w', encoding='utf-8') as f:
 # -----------------------------
 for metro, comps in metros.items():
     slug = metro_slugs[metro]
-    sorted_comps = sorted(comps, key=lambda x: (-(float(x['google_rating']) if x['google_rating'] else 0), -(int(x['google_review_count']) if x['google_review_count'] else 0)))
+    def bayesian(c):
+        r = float(c['google_rating']) if c['google_rating'] else 0
+        n = int(c['google_review_count']) if c['google_review_count'] else 0
+        if not r: return 0
+        return (n / (n + 10)) * r + (10 / (n + 10)) * 4.0
+    sorted_comps = sorted(comps, key=lambda x: -bayesian(x))
     top_count = len([c for c in comps if c['google_rating'] and float(c['google_rating']) >= 4.5])
     
     body = f'<h2>Estate Sale Companies in {metro}, FL</h2>\n<p style="margin-bottom:16px;color:#555">{len(comps)} companies &bull; {top_count} rated 4.5★ or higher</p>\n<div class="company-grid">'
