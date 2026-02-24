@@ -100,7 +100,7 @@ footer a { color: #ccc; }
 # -----------------------------
 # 5️⃣ Page template
 # -----------------------------
-def page(title, body, description="", canonical_path="/"):
+def page(title, body, description=""):
     return f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -108,7 +108,6 @@ def page(title, body, description="", canonical_path="/"):
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{title}</title>
 <meta name="description" content="{description}">
-<link rel="canonical" href="https://estatesaleratings.com{canonical_path}">
 <style>{CSS}</style>
 </head>
 <body>
@@ -137,35 +136,8 @@ total = len(companies)
 rated = len([c for c in companies if c['google_rating']])
 top = len([c for c in companies if c['google_rating'] and float(c['google_rating']) >= 4.5])
 
-home_body = f'''
-<div class="hero" style="margin: -24px -16px 32px;">
-  <h1>Find Top-Rated Estate Sale Companies</h1>
-  <p>We list {total:,}+ estate sale companies with verified Google ratings so you can hire with confidence.</p>
-</div>
-<h2>Browse by State</h2>
-<div class="state-grid">
-  <div class="state-card">
-    <a href="/florida/">Florida</a>
-    <div class="count">{total:,} companies &bull; {top} rated 4.5+★</div>
-  </div>
-  <div class="state-card" style="opacity:0.5">
-    <span style="color:#999">Texas</span>
-    <div class="count">Coming soon</div>
-  </div>
-  <div class="state-card" style="opacity:0.5">
-    <span style="color:#999">California</span>
-    <div class="count">Coming soon</div>
-  </div>
-</div>
-<div style="margin-top:48px; background:white; border:1px solid #ddd; border-radius:8px; padding:24px;">
-  <h2>Why EstateSaleRatings.com?</h2>
-  <p style="margin-top:12px; line-height:1.7">Hiring an estate sale company is one of the most important decisions you can make when liquidating an estate. We combine company listings with real Google ratings so you can see at a glance which companies have earned the trust of their customers. Filter by city, sort by rating, and hire with confidence.</p>
-</div>
-'''
-
-with open('docs/index.html', 'w', encoding='utf-8') as f:
-    f.write(page('EstateSaleRatings.com - Find Top-Rated Estate Sale Companies', home_body,
-                 'Find top-rated estate sale companies near you. Verified Google ratings for 1,500+ companies across Florida.', canonical_path='/'))
+# Homepage is maintained separately as docs/index.html - do not overwrite
+# (copy index.html manually into docs/ folder)
 
 # -----------------------------
 # 7️⃣ Florida page
@@ -207,7 +179,7 @@ for metro, comps in metros.items():
     
     with open(f'docs/florida/{slug}/index.html', 'w', encoding='utf-8') as f:
         f.write(page(f'Estate Sale Companies in {metro}, FL | EstateSaleRatings.com', body,
-                     f'Find the best estate sale companies in {metro}, Florida. {top_count} companies rated 4.5 stars or higher on Google.', canonical_path=f'/florida/{slug}/'))
+                     f'Find the best estate sale companies in {metro}, Florida. {top_count} companies rated 4.5 stars or higher on Google.'))
 
 # -----------------------------
 # 9️⃣ Add .nojekyll for GitHub Pages
