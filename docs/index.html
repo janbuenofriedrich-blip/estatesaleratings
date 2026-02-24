@@ -3,111 +3,142 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Estate Sale Companies | EstateSaleRatings.com</title>
-<meta name="description" content="Find top-rated estate sale companies near you with verified Google ratings. Filter by city and rating.">
+<title>Estate Sale Companies in Florida | EstateSaleRatings.com</title>
+<meta name="description" content="Find the best estate sale companies in Florida. Verified Google ratings so you can hire with confidence.">
 <style>
+/* Reset & basic styling */
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: Georgia, serif; color: #222; background: #fafaf8; }
-header { background: #2c5f2e; color: white; padding: 16px 24px; text-align: center; }
-header a { color: white; text-decoration: none; }
-header h1 { font-size: 2rem; }
-header p { font-size: 0.9rem; opacity: 0.85; margin-top: 4px; }
-nav { background: #1e4220; padding: 8px 24px; text-align: center; }
-nav a { color: #cde8ce; text-decoration: none; font-size: 0.9rem; margin: 0 12px; }
+body { font-family: Georgia, serif; color: #222; background: #f9f9f9; line-height: 1.6; }
+header { background: #2c5f2e; color: white; padding: 20px; text-align: center; }
+header h1 { font-size: 2rem; margin-bottom: 5px; }
+header p { font-size: 1rem; opacity: 0.9; }
+
+nav { background: #1e4220; padding: 10px 20px; text-align: center; }
+nav a { color: #cde8ce; text-decoration: none; font-size: 0.95rem; margin: 0 15px; }
 nav a:hover { color: white; }
+
 .container { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
-.filters { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
-.filters input, .filters select { padding: 8px; font-size: 0.9rem; border: 1px solid #ddd; border-radius: 4px; }
-.company-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-.company-card { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 16px; transition: transform 0.2s, box-shadow 0.2s; }
+h2 { color: #2c5f2e; font-size: 1.6rem; margin-bottom: 16px; }
+p { color: #555; margin-bottom: 16px; }
+
+.company-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-top: 16px; }
+.company-card { background: white; border: 1px solid #ddd; border-radius: 10px; padding: 18px; transition: transform 0.2s, box-shadow 0.2s; }
 .company-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-.company-card h3 { color: #1a1a1a; font-size: 1rem; margin-bottom: 4px; }
-.location { color: #666; font-size: 0.85rem; margin-bottom: 4px; }
-.rating { margin: 8px 0; font-size: 0.9rem; }
-.stars { color: #f5a623; font-size: 1rem; }
-.review-count { color: #666; font-size: 0.8rem; }
-.contact a { color: #2c5f2e; text-decoration: none; }
-.contact a:hover { text-decoration: underline; }
+.company-card h3 { color: #1a1a1a; font-size: 1.1rem; margin-bottom: 6px; }
+.location { color: #666; font-size: 0.9rem; margin-bottom: 6px; }
+.rating { margin-bottom: 8px; font-size: 0.95rem; }
+.stars { color: #f5a623; }
+.review-count { color: #666; font-size: 0.85rem; }
+.contact a { color: #2c5f2e; text-decoration: underline; font-size: 0.9rem; }
+.contact { margin-top: 8px; font-size: 0.9rem; }
+
+/* Filter styling */
+.filter-box { margin: 24px 0; text-align: center; }
+#searchInput { padding: 10px 14px; width: 100%; max-width: 400px; border-radius: 6px; border: 1px solid #ccc; font-size: 1rem; }
+
+/* State/Cities grid */
+.state-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin-top: 24px; }
+.state-card { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 16px; text-align: center; transition: transform 0.2s, box-shadow 0.2s; }
+.state-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.state-card a { text-decoration: none; color: #2c5f2e; font-weight: bold; font-size: 1.1rem; }
+.state-card .count { font-size: 0.85rem; color: #666; margin-top: 6px; }
+
+/* Footer */
 footer { background: #222; color: #aaa; text-align: center; padding: 24px; margin-top: 48px; font-size: 0.85rem; }
-footer a { color: #ccc; text-decoration: none; }
-footer a:hover { color: white; }
+footer a { color: #ccc; text-decoration: underline; }
+
+/* Hero section */
+.hero { background: #2c5f2e; color: white; padding: 48px 24px; text-align: center; border-radius: 8px; }
+.hero h1 { font-size: 2.2rem; margin-bottom: 12px; }
+.hero p { font-size: 1.1rem; opacity: 0.9; max-width: 600px; margin: 0 auto; }
+
 </style>
 </head>
 <body>
+
 <header>
   <a href="/"><h1>EstateSaleRatings.com</h1></a>
   <p>Find top-rated estate sale companies near you</p>
 </header>
+
 <nav>
   <a href="/">Home</a>
   <a href="/florida/">Florida</a>
+  <a href="/texas/">Texas</a>
 </nav>
+
 <div class="container">
-  <div class="filters">
-    <input type="text" id="searchInput" placeholder="Search company name..." onkeyup="filterCompanies()">
-    <select id="cityFilter" onchange="filterCompanies()">
-      <option value="">All Cities</option>
-      <option>Miami</option>
-      <option>Fort Lauderdale</option>
-      <option>West Palm Beach</option>
-      <option>Jupiter</option>
-      <option>Dania</option>
-      <option>Lake Worth</option>
-      <option>Hialeah</option>
-      <option>North Palm Beach</option>
-      <option>Loxahatchee</option>
-    </select>
-    <select id="ratingFilter" onchange="filterCompanies()">
-      <option value="">All Ratings</option>
-      <option value="5">5★</option>
-      <option value="4.5">4.5★+</option>
-      <option value="4">4★+</option>
-    </select>
+  <div class="hero">
+    <h1>Find Top-Rated Estate Sale Companies</h1>
+    <p>1,554+ companies listed with verified Google ratings so you can hire with confidence.</p>
   </div>
 
-  <div id="companyGrid" class="company-grid">
-    <!-- Example company cards -->
-    <div class="company-card" data-city="Fort Lauderdale" data-rating="5">
+  <h2>Browse by State</h2>
+  <div class="state-grid">
+    <div class="state-card">
+      <a href="/florida/">Florida</a>
+      <div class="count">1,554 companies • 418 rated 4.5★+</div>
+    </div>
+    <div class="state-card" style="opacity:0.5">
+      <span style="color:#999">Texas</span>
+      <div class="count">Coming soon</div>
+    </div>
+    <div class="state-card" style="opacity:0.5">
+      <span style="color:#999">California</span>
+      <div class="count">Coming soon</div>
+    </div>
+  </div>
+
+  <!-- Filter box -->
+  <div class="filter-box">
+    <input type="text" id="searchInput" placeholder="Filter companies by name, city, or rating...">
+  </div>
+
+  <!-- Company grid -->
+  <div class="company-grid" id="companyGrid">
+    <!-- Example cards (repeat your Python-generated cards here) -->
+    <div class="company-card">
       <h3>Church Of Mod</h3>
       <div class="location">Fort Lauderdale, FL</div>
-      <div class="rating"><span class="stars">★★★★★</span> <span class="review-count">(280 Google reviews)</span></div>
+      <div class="rating"><span class="stars">★★★★★</span> <span class="review-count">(280 reviews)</span></div>
       <div class="contact"><span class="phone">(305) 776-4425</span></div>
     </div>
-
-    <div class="company-card" data-city="Dania" data-rating="5">
+    <div class="company-card">
       <h3>Cash From Treasures</h3>
       <div class="location">Dania, FL</div>
-      <div class="rating"><span class="stars">★★★★★</span> <span class="review-count">(101 Google reviews)</span></div>
+      <div class="rating"><span class="stars">★★★★★</span> <span class="review-count">(101 reviews)</span></div>
       <div class="contact"><span class="phone">(954) 559-7911</span></div>
     </div>
-
-    <!-- Paste all your other company cards here, keeping the same structure and data-city/data-rating attributes -->
+    <!-- Add all your other company cards here, exactly like before -->
   </div>
 </div>
+
 <footer>
   <p>&copy; 2026 EstateSaleRatings.com — <a href="/">Home</a> | <a href="/florida/">Florida</a></p>
   <p>Ratings sourced from Google. Company data from public listings.</p>
 </footer>
 
 <script>
-function filterCompanies() {
-  const search = document.getElementById('searchInput').value.toLowerCase();
-  const city = document.getElementById('cityFilter').value;
-  const rating = document.getElementById('ratingFilter').value;
-  const cards = document.querySelectorAll('.company-card');
+// Real-time filter
+const searchInput = document.getElementById('searchInput');
+const companyGrid = document.getElementById('companyGrid');
+const cards = companyGrid.getElementsByClassName('company-card');
 
-  cards.forEach(card => {
+searchInput.addEventListener('input', function() {
+  const filter = this.value.toLowerCase();
+  for (let i = 0; i < cards.length; i++) {
+    const card = cards[i];
     const name = card.querySelector('h3').textContent.toLowerCase();
-    const cardCity = card.getAttribute('data-city');
-    const cardRating = parseFloat(card.getAttribute('data-rating'));
-
-    const matchesSearch = name.includes(search);
-    const matchesCity = !city || cardCity === city;
-    const matchesRating = !rating || cardRating >= parseFloat(rating);
-
-    card.style.display = (matchesSearch && matchesCity && matchesRating) ? 'block' : 'none';
-  });
-}
+    const city = card.querySelector('.location').textContent.toLowerCase();
+    const rating = card.querySelector('.rating').textContent.toLowerCase();
+    if (name.includes(filter) || city.includes(filter) || rating.includes(filter)) {
+      card.style.display = '';
+    } else {
+      card.style.display = 'none';
+    }
+  }
+});
 </script>
+
 </body>
 </html>
