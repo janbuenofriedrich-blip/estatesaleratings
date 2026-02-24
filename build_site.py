@@ -11,9 +11,11 @@ metros = defaultdict(list)
 for c in companies:
     metros[c['scraped_metro']].append(c)
 
+# Create directories
 os.makedirs('docs', exist_ok=True)
 os.makedirs('docs/florida', exist_ok=True)
 
+# Helper functions
 def stars(rating):
     if not rating:
         return ''
@@ -47,6 +49,7 @@ def company_card(c):
     <div class="contact">{phone_html} {website_html}</div>
 </div>'''
 
+# CSS (unchanged)
 CSS = '''
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: Georgia, serif; color: #222; background: #fafaf8; }
@@ -86,6 +89,7 @@ footer { background: #222; color: #aaa; text-align: center; padding: 24px; margi
 footer a { color: #ccc; }
 '''
 
+# Page template with root-relative links
 def page(title, body, description=""):
     return f'''<!DOCTYPE html>
 <html lang="en">
@@ -98,18 +102,18 @@ def page(title, body, description=""):
 </head>
 <body>
 <header>
-  <a href="/estatesaleratings/"><h1>EstaSaleRatings.com</h1></a>
+  <a href="/"><h1>EstaSaleRatings.com</h1></a>
   <p>Find top-rated estate sale companies near you</p>
 </header>
 <nav>
-  <a href="/estatesaleratings/">Home</a>
-  <a href="/estatesaleratings/florida/">Florida</a>
+  <a href="/">Home</a>
+  <a href="/florida/">Florida</a>
 </nav>
 <div class="container">
 {body}
 </div>
 <footer>
-  <p>&copy; 2025 EstateSaleRatings.com &mdash; <a href="/estatesaleratings/">Home</a> | <a href="/estatesaleratings/florida/">Florida</a></p>
+  <p>&copy; 2025 EstateSaleRatings.com &mdash; <a href="/">Home</a> | <a href="/florida/">Florida</a></p>
   <p style="margin-top:8px">Ratings sourced from Google. Company data from public listings.</p>
 </footer>
 </body>
@@ -128,7 +132,7 @@ home_body = f'''
 <h2>Browse by State</h2>
 <div class="state-grid">
   <div class="state-card">
-    <a href="/estatesaleratings/florida/">Florida</a>
+    <a href="/florida/">Florida</a>
     <div class="count">{total:,} companies &bull; {top} rated 4.5+★</div>
   </div>
   <div class="state-card" style="opacity:0.5">
@@ -164,7 +168,7 @@ for metro, comps in sorted(metros.items(), key=lambda x: -len(x[1])):
     top_in_metro = len([c for c in comps if c['google_rating'] and float(c['google_rating']) >= 4.5])
     fl_body += f'''
 <div class="metro-card">
-  <a href="/estatesaleratings/florida/{slug}/">{metro}</a>
+  <a href="/florida/{slug}/">{metro}</a>
   <div class="count">{len(comps)} companies &bull; {top_in_metro} rated 4.5+★</div>
 </div>'''
 fl_body += '</div>'
