@@ -2,7 +2,9 @@ import csv
 import os
 from collections import defaultdict
 
-# Read data
+# -----------------------------
+# 1️⃣ Read data
+# -----------------------------
 with open('fl_companies_rated.csv', 'r', encoding='utf-8') as f:
     companies = list(csv.DictReader(f))
 
@@ -11,11 +13,15 @@ metros = defaultdict(list)
 for c in companies:
     metros[c['scraped_metro']].append(c)
 
-# Create directories
+# -----------------------------
+# 2️⃣ Prepare output folders
+# -----------------------------
 os.makedirs('docs', exist_ok=True)
 os.makedirs('docs/florida', exist_ok=True)
 
-# Helper functions
+# -----------------------------
+# 3️⃣ Helper functions
+# -----------------------------
 def stars(rating):
     if not rating:
         return ''
@@ -49,7 +55,9 @@ def company_card(c):
     <div class="contact">{phone_html} {website_html}</div>
 </div>'''
 
-# CSS (unchanged)
+# -----------------------------
+# 4️⃣ CSS
+# -----------------------------
 CSS = '''
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: Georgia, serif; color: #222; background: #fafaf8; }
@@ -89,7 +97,9 @@ footer { background: #222; color: #aaa; text-align: center; padding: 24px; margi
 footer a { color: #ccc; }
 '''
 
-# Page template with root-relative links
+# -----------------------------
+# 5️⃣ Page template
+# -----------------------------
 def page(title, body, description=""):
     return f'''<!DOCTYPE html>
 <html lang="en">
@@ -119,7 +129,9 @@ def page(title, body, description=""):
 </body>
 </html>'''
 
-# Homepage
+# -----------------------------
+# 6️⃣ Homepage
+# -----------------------------
 total = len(companies)
 rated = len([c for c in companies if c['google_rating']])
 top = len([c for c in companies if c['google_rating'] and float(c['google_rating']) >= 4.5])
@@ -154,7 +166,9 @@ with open('docs/index.html', 'w', encoding='utf-8') as f:
     f.write(page('EstateSaleRatings.com - Find Top-Rated Estate Sale Companies', home_body,
                  'Find top-rated estate sale companies near you. Verified Google ratings for 1,500+ companies across Florida.'))
 
-# Florida state page
+# -----------------------------
+# 7️⃣ Florida page
+# -----------------------------
 slug_map = {}
 metro_slugs = {}
 for metro in metros:
@@ -177,7 +191,9 @@ with open('docs/florida/index.html', 'w', encoding='utf-8') as f:
     f.write(page('Estate Sale Companies in Florida | EstateSaleRatings.com', fl_body,
                  f'Browse {total} estate sale companies across Florida. Find top-rated companies in Orlando, Miami, Tampa, Jacksonville and more.'))
 
-# Metro pages
+# -----------------------------
+# 8️⃣ Metro pages
+# -----------------------------
 for metro, comps in metros.items():
     slug = metro_slugs[metro]
     sorted_comps = sorted(comps, key=lambda x: (-(float(x['google_rating']) if x['google_rating'] else 0), -(int(x['google_review_count']) if x['google_review_count'] else 0)))
@@ -191,6 +207,11 @@ for metro, comps in metros.items():
     with open(f'docs/florida/{slug}/index.html', 'w', encoding='utf-8') as f:
         f.write(page(f'Estate Sale Companies in {metro}, FL | EstateSaleRatings.com', body,
                      f'Find the best estate sale companies in {metro}, Florida. {top_count} companies rated 4.5 stars or higher on Google.'))
+
+# -----------------------------
+# 9️⃣ Add .nojekyll for GitHub Pages
+# -----------------------------
+open('docs/.nojekyll', 'w').close()
 
 print(f"Site built! Pages created:")
 print(f"  - Homepage")
