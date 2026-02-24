@@ -3,76 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EstateSaleRatings.com – Curated Top-Rated Estate Sale Companies</title>
-<meta name="description" content="Discover curated top-rated estate sale companies in Florida with logos, verified Google ratings, and detailed information.">
+<title>Estate Sale Companies in Florida | EstateSaleRatings.com</title>
+<meta name="description" content="Curated list of top-rated estate sale companies in Florida. Filter by city, metro area, and rating.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Georgia', serif; color: #222; background: #f7f7f7; line-height: 1.6; }
-
-/* Header */
-header { background: #0a3d62; color: #fefefe; padding: 20px; text-align: center; }
-header h1 { font-size: 2rem; }
-header p { font-size: 1rem; opacity: 0.9; }
-
-/* Navigation */
-nav { background: #1e526e; padding: 10px; text-align: center; }
-nav a { color: #fefefe; margin: 0 12px; font-weight: bold; font-size: 0.95rem; }
-nav a:hover { color: #f5b041; }
-
-/* Hero */
-.hero { background: #3c6382; color: #fefefe; text-align: center; padding: 40px 16px; border-radius: 8px; margin-bottom: 32px; }
-.hero h2 { font-size: 1.8rem; margin-bottom: 12px; }
-.hero p { font-size: 1.1rem; max-width: 700px; margin: 0 auto; opacity: 0.95; }
-
-/* Filters */
-.filter-container { margin-bottom: 24px; display: flex; gap: 16px; flex-wrap: wrap; justify-content: flex-start; }
-.filter-container input, .filter-container select {
-  padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.95rem; min-width: 180px;
-}
-.filter-container input:focus, .filter-container select:focus { outline: 2px solid #f5b041; border-color: #f5b041; }
-
-/* Company Grid */
-.company-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-.company-card { background: #fff; border-radius: 10px; border: 1px solid #ccc; padding: 18px; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; align-items: center; }
-.company-card.top-company { border: 2px solid #f5b041; }
-.company-card:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-.company-card img.logo { max-width: 120px; max-height: 60px; object-fit: contain; margin-bottom: 12px; border-radius: 6px; }
-
-/* Text in cards */
-.company-card h3 { font-size: 1.1rem; color: #0a3d62; margin-bottom: 4px; text-align: center; }
-.company-card .location { font-size: 0.85rem; color: #3c3c3c; margin-bottom: 6px; }
-.company-card .rating { font-size: 0.9rem; margin-bottom: 6px; text-align: center; }
-.stars { color: #f5b041; font-size: 1rem; }
-.review-count { font-size: 0.8rem; color: #555; }
-.verified-badge { background: #f5b041; color: #fff; font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; margin-left: 6px; }
-
-/* Contact */
-.company-card .contact { margin-top: 6px; font-size: 0.85rem; text-align: center; }
-.company-card .contact a { color: #f5b041; }
-.company-card .contact a:hover { text-decoration: underline; }
-
-/* State Grid */
-.state-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 24px; }
-.state-card { background: #fff; border-radius: 8px; border: 1px solid #ccc; padding: 16px; text-align: center; transition: transform 0.2s, box-shadow 0.2s; }
-.state-card:hover { transform: translateY(-2px); box-shadow: 0 3px 8px rgba(0,0,0,0.1); }
-.state-card a { font-weight: bold; font-size: 1.05rem; color: #0a3d62; }
-.state-card .count { font-size: 0.85rem; color: #555; margin-top: 6px; }
-.state-card.disabled { opacity: 0.5; pointer-events: none; }
-
-/* Footer */
-footer { background: #1e526e; color: #fefefe; text-align: center; padding: 24px; margin-top: 48px; font-size: 0.85rem; }
-footer a { color: #f5b041; }
-
-/* Responsive */
-@media (max-width: 600px) {
-  .filter-container { flex-direction: column; }
-}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Georgia', serif; background: #f7f7f7; color: #222; }
+  header { background: #1e3d59; color: #fff; padding: 24px; text-align: center; }
+  header a { color: #fff; text-decoration: none; }
+  header h1 { font-size: 2rem; }
+  nav { background: #27496d; padding: 12px 24px; display: flex; gap: 16px; }
+  nav a { color: #cce0ff; text-decoration: none; font-weight: 500; }
+  nav a:hover { color: #fff; }
+  .container { max-width: 1200px; margin: 24px auto; padding: 0 16px; }
+  .filters { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+  .filters input, .filters select { padding: 8px 12px; font-size: 0.95rem; border-radius: 4px; border: 1px solid #ccc; }
+  .company-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  .company-card { background: #fff; border-radius: 8px; padding: 16px; border: 1px solid #ddd; transition: box-shadow 0.2s; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .company-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  .company-card img { max-width: 100px; max-height: 60px; margin-bottom: 12px; object-fit: contain; }
+  .company-card h3 { font-size: 1.1rem; margin-bottom: 6px; color: #1e3d59; }
+  .location { color: #666; font-size: 0.85rem; margin-bottom: 4px; }
+  .rating { margin: 6px 0; font-size: 0.9rem; }
+  .stars { color: #f5a623; }
+  .contact a { color: #1e3d59; text-decoration: none; font-weight: bold; }
+  footer { background: #1e3d59; color: #ccc; text-align: center; padding: 24px; margin-top: 48px; font-size: 0.85rem; }
+  .badge { display: inline-block; background: #4caf50; color: #fff; padding: 2px 6px; font-size: 0.7rem; border-radius: 4px; margin-left: 4px; }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>EstateSaleRatings.com</h1>
+  <a href="/"><h1>EstateSaleRatings.com</h1></a>
   <p>Curated top-rated estate sale companies in Florida</p>
 </header>
 
@@ -82,100 +44,89 @@ footer a { color: #f5b041; }
 </nav>
 
 <div class="container">
-
-  <div class="hero">
-    <h2>Find Top-Rated Estate Sale Companies</h2>
-    <p>Filter by name, city, or rating to find companies you can trust. Verified Google ratings and logos included.</p>
-  </div>
-
-  <!-- Filters -->
-  <div class="filter-container">
-    <input type="text" id="nameFilter" placeholder="Search by company name">
-    <input type="text" id="cityFilter" placeholder="Search by city">
+  <div class="filters">
+    <input type="text" id="searchInput" placeholder="Search company name...">
+    <select id="cityFilter">
+      <option value="">All Cities</option>
+    </select>
     <select id="ratingFilter">
       <option value="">All Ratings</option>
       <option value="5">5★</option>
-      <option value="4.5">4.5★+</option>
-      <option value="4">4★+</option>
+      <option value="4">4★ & up</option>
+      <option value="3">3★ & up</option>
     </select>
   </div>
 
-  <!-- Company Grid -->
-  <div class="company-grid" id="companyGrid"></div>
-
-  <h2 style="margin-top:40px;">Browse by State</h2>
-  <div class="state-grid">
-    <div class="state-card">
-      <a href="/florida/">Florida</a>
-      <div class="count">1,554 companies • 418 rated 4.5★+</div>
-    </div>
-    <div class="state-card disabled">
-      <span>Texas</span>
-      <div class="count">Coming soon</div>
-    </div>
-    <div class="state-card disabled">
-      <span>California</span>
-      <div class="count">Coming soon</div>
-    </div>
+  <div class="company-grid" id="companyGrid">
+    <!-- Companies will appear here after applying filters -->
   </div>
-
 </div>
 
 <footer>
-  <p>&copy; 2026 EstateSaleRatings.com — <a href="/">Home</a> | <a href="/florida/">Florida</a></p>
-  <p style="margin-top:8px;">Ratings sourced from Google. Company data from public listings.</p>
+  &copy; 2026 EstateSaleRatings.com
 </footer>
 
-<script src="companies.js"></script>
+<script src="docs/companies.js"></script>
 <script>
-// Populate company grid
-const grid = document.getElementById("companyGrid");
+const grid = document.getElementById('companyGrid');
+const searchInput = document.getElementById('searchInput');
+const cityFilter = document.getElementById('cityFilter');
+const ratingFilter = document.getElementById('ratingFilter');
 
-function displayCompanies(list) {
-  grid.innerHTML = "";
-  list.forEach(c => {
-    const div = document.createElement("div");
-    div.className = "company-card";
-    if (parseFloat(c.rating) >= 4.5) div.classList.add("top-company"); // highlight top
-    div.innerHTML = `
-      ${c.logoUrl ? `<img class="logo" src="${c.logoUrl}" alt="${c.name} logo">` : ""}
-      <h3>${c.name} ${c.googleReviews >= 50 ? '<span class="verified-badge">Verified</span>' : ''}</h3>
-      <div class="location">${c.city}, ${c.state}</div>
-      <div class="rating"><span class="stars">${"★".repeat(Math.floor(c.rating))}${c.rating % 1 >= 0.5 ? "½" : ""}</span> <span class="review-count">(${c.googleReviews || "N/A"} reviews)</span></div>
-      <div class="contact">
-        <span class="phone">${c.phone || ""}</span>
-        ${c.website ? `<a href="${c.website}" target="_blank" rel="nofollow">Visit Website</a>` : ""}
-      </div>
-    `;
-    grid.appendChild(div);
-  });
-}
+// Populate city filter dropdown
+const cities = [...new Set(allCompanies.map(c => c.cityName))].sort();
+cities.forEach(city => {
+  const option = document.createElement('option');
+  option.value = city;
+  option.textContent = city;
+  cityFilter.appendChild(option);
+});
 
-// Filters
-const nameInput = document.getElementById("nameFilter");
-const cityInput = document.getElementById("cityFilter");
-const ratingInput = document.getElementById("ratingFilter");
-
+// Display companies based on filters
 function filterCompanies() {
-  const name = nameInput.value.toLowerCase();
-  const city = cityInput.value.toLowerCase();
-  const rating = parseFloat(ratingInput.value);
+  const searchTerm = searchInput.value.toLowerCase();
+  const selectedCity = cityFilter.value;
+  const selectedRating = ratingFilter.value;
 
-  const filtered = companies.filter(c => {
-    const matchesName = c.name.toLowerCase().includes(name);
-    const matchesCity = c.city.toLowerCase().includes(city);
-    const matchesRating = !rating || parseFloat(c.rating || 0) >= rating;
+  grid.innerHTML = ''; // clear grid
+
+  let filtered = allCompanies.filter(company => {
+    const matchesName = company.name.toLowerCase().includes(searchTerm);
+    const matchesCity = selectedCity ? company.cityName === selectedCity : true;
+    const matchesRating = selectedRating
+      ? selectedRating === "5"
+        ? company.rating >= 5
+        : selectedRating === "4"
+          ? company.rating >= 4
+          : company.rating >= 3
+      : true;
     return matchesName && matchesCity && matchesRating;
   });
-  displayCompanies(filtered);
+
+  // Do not display any companies until a filter is applied
+  if (!searchTerm && !selectedCity && !selectedRating) return;
+
+  filtered.forEach(company => {
+    const card = document.createElement('div');
+    card.className = 'company-card';
+    card.innerHTML = `
+      ${company.logoUrl ? `<img src="${company.logoUrl}" alt="${company.name} logo">` : ''}
+      <h3>${company.name}${company.orgPackageTypeName === "Premium" ? '<span class="badge">Verified</span>' : ''}</h3>
+      <div class="location">${company.cityName}, ${company.stateCode}</div>
+      <div class="rating"><span class="stars">${'★'.repeat(Math.round(company.rating))}</span> (${company.rating})</div>
+      <div class="contact">
+        ${company.phoneNumber ? `<span>${company.phoneNumber}</span>` : ''}
+        ${company.websiteUrl ? `<br><a href="${company.websiteUrl}" target="_blank">Visit Website</a>` : ''}
+      </div>
+    `;
+    grid.appendChild(card);
+  });
 }
 
-nameInput.addEventListener("input", filterCompanies);
-cityInput.addEventListener("input", filterCompanies);
-ratingInput.addEventListener("change", filterCompanies);
-
-// Initial load
-displayCompanies(companies);
+// Event listeners
+searchInput.addEventListener('input', filterCompanies);
+cityFilter.addEventListener('change', filterCompanies);
+ratingFilter.addEventListener('change', filterCompanies);
 </script>
 
 </body>
