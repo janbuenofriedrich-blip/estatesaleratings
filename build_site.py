@@ -148,35 +148,7 @@ total = len(companies)
 rated = len([c for c in companies if c['google_rating']])
 top = len([c for c in companies if c['google_rating'] and float(c['google_rating']) >= 4.5])
 
-home_body = f'''
-<div class="hero" style="margin: -24px -16px 32px;">
-  <h1>Find Top-Rated Estate Sale Companies</h1>
-  <p>We list {total:,}+ estate sale companies with verified Google ratings so you can hire with confidence.</p>
-</div>
-<h2>Browse by State</h2>
-<div class="state-grid">
-  <div class="state-card">
-    <a href="/florida/">Florida</a>
-    <div class="count">{total:,} companies &bull; {top} rated 4.5+★</div>
-  </div>
-  <div class="state-card" style="opacity:0.5">
-    <span style="color:#999">Texas</span>
-    <div class="count">Coming soon</div>
-  </div>
-  <div class="state-card" style="opacity:0.5">
-    <span style="color:#999">California</span>
-    <div class="count">Coming soon</div>
-  </div>
-</div>
-<div style="margin-top:48px; background:white; border:1px solid #ddd; border-radius:8px; padding:24px;">
-  <h2>Why EstateSaleRatings.com?</h2>
-  <p style="margin-top:12px; line-height:1.7">Hiring an estate sale company is one of the most important decisions you can make when liquidating an estate. We combine company listings with real Google ratings so you can see at a glance which companies have earned the trust of their customers. Filter by city, sort by rating, and hire with confidence.</p>
-</div>
-'''
-
-with open('docs/index.html', 'w', encoding='utf-8') as f:
-    f.write(page('EstateSaleRatings.com - Find Top-Rated Estate Sale Companies', home_body,
-                 'Find top-rated estate sale companies near you. Verified Google ratings for 1,500+ companies across Florida.'))
+# Homepage (docs/index.html) is managed separately - do not generate here
 
 # -----------------------------
 # 7️⃣ Florida page
