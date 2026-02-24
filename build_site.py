@@ -100,7 +100,7 @@ footer a { color: #ccc; }
 # -----------------------------
 # 5️⃣ Page template
 # -----------------------------
-def page(title, body, description=""):
+def page(title, body, description="", canonical_path="/"):
     return f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -108,6 +108,7 @@ def page(title, body, description=""):
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{title}</title>
 <meta name="description" content="{description}">
+<link rel="canonical" href="https://estatesaleratings.com{canonical_path}">
 <style>{CSS}</style>
 </head>
 <body>
@@ -164,7 +165,7 @@ home_body = f'''
 
 with open('docs/index.html', 'w', encoding='utf-8') as f:
     f.write(page('EstateSaleRatings.com - Find Top-Rated Estate Sale Companies', home_body,
-                 'Find top-rated estate sale companies near you. Verified Google ratings for 1,500+ companies across Florida.'))
+                 'Find top-rated estate sale companies near you. Verified Google ratings for 1,500+ companies across Florida.', canonical_path='/'))
 
 # -----------------------------
 # 7️⃣ Florida page
@@ -196,12 +197,7 @@ with open('docs/florida/index.html', 'w', encoding='utf-8') as f:
 # -----------------------------
 for metro, comps in metros.items():
     slug = metro_slugs[metro]
-    def bayesian(c):
-        r = float(c['google_rating']) if c['google_rating'] else 0
-        n = int(c['google_review_count']) if c['google_review_count'] else 0
-        if not r: return 0
-        return (n / (n + 10)) * r + (10 / (n + 10)) * 4.0
-    sorted_comps = sorted(comps, key=lambda x: -bayesian(x))
+    sorted_comps = sorted(comps, key=lambda x: (-(float(x['google_rating']) if x['google_rating'] else 0), -(int(x['google_review_count']) if x['google_review_count'] else 0)))
     top_count = len([c for c in comps if c['google_rating'] and float(c['google_rating']) >= 4.5])
     
     body = f'<h2>Estate Sale Companies in {metro}, FL</h2>\n<p style="margin-bottom:16px;color:#555">{len(comps)} companies &bull; {top_count} rated 4.5★ or higher</p>\n<div class="company-grid">'
@@ -211,7 +207,7 @@ for metro, comps in metros.items():
     
     with open(f'docs/florida/{slug}/index.html', 'w', encoding='utf-8') as f:
         f.write(page(f'Estate Sale Companies in {metro}, FL | EstateSaleRatings.com', body,
-                     f'Find the best estate sale companies in {metro}, Florida. {top_count} companies rated 4.5 stars or higher on Google.'))
+                     f'Find the best estate sale companies in {metro}, Florida. {top_count} companies rated 4.5 stars or higher on Google.', canonical_path=f'/florida/{slug}/'))
 
 # -----------------------------
 # 9️⃣ Add .nojekyll for GitHub Pages
