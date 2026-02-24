@@ -100,7 +100,7 @@ footer a { color: #ccc; }
 # -----------------------------
 # 5️⃣ Page template
 # -----------------------------
-def page(title, body, description=""):
+def page(title, body, description="", canonical_path="/"):
     return f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -136,8 +136,35 @@ total = len(companies)
 rated = len([c for c in companies if c['google_rating']])
 top = len([c for c in companies if c['google_rating'] and float(c['google_rating']) >= 4.5])
 
-# Homepage is maintained separately as docs/index.html - do not overwrite
-# (copy index.html manually into docs/ folder)
+home_body = f'''
+<div class="hero" style="margin: -24px -16px 32px;">
+  <h1>Find Top-Rated Estate Sale Companies</h1>
+  <p>We list {total:,}+ estate sale companies with verified Google ratings so you can hire with confidence.</p>
+</div>
+<h2>Browse by State</h2>
+<div class="state-grid">
+  <div class="state-card">
+    <a href="/florida/">Florida</a>
+    <div class="count">{total:,} companies &bull; {top} rated 4.5+★</div>
+  </div>
+  <div class="state-card" style="opacity:0.5">
+    <span style="color:#999">Texas</span>
+    <div class="count">Coming soon</div>
+  </div>
+  <div class="state-card" style="opacity:0.5">
+    <span style="color:#999">California</span>
+    <div class="count">Coming soon</div>
+  </div>
+</div>
+<div style="margin-top:48px; background:white; border:1px solid #ddd; border-radius:8px; padding:24px;">
+  <h2>Why EstateSaleRatings.com?</h2>
+  <p style="margin-top:12px; line-height:1.7">Hiring an estate sale company is one of the most important decisions you can make when liquidating an estate. We combine company listings with real Google ratings so you can see at a glance which companies have earned the trust of their customers. Filter by city, sort by rating, and hire with confidence.</p>
+</div>
+'''
+
+with open('docs/index.html', 'w', encoding='utf-8') as f:
+    f.write(page('EstateSaleRatings.com - Find Top-Rated Estate Sale Companies', home_body,
+                 'Find top-rated estate sale companies near you. Verified Google ratings for 1,500+ companies across Florida.'))
 
 # -----------------------------
 # 7️⃣ Florida page
@@ -171,15 +198,56 @@ for metro, comps in metros.items():
     slug = metro_slugs[metro]
     sorted_comps = sorted(comps, key=lambda x: (-(float(x['google_rating']) if x['google_rating'] else 0), -(int(x['google_review_count']) if x['google_review_count'] else 0)))
     top_count = len([c for c in comps if c['google_rating'] and float(c['google_rating']) >= 4.5])
-    
-    body = f'<h2>Estate Sale Companies in {metro}, FL</h2>\n<p style="margin-bottom:16px;color:#555">{len(comps)} companies &bull; {top_count} rated 4.5★ or higher</p>\n<div class="company-grid">'
+    rated_count = len([c for c in comps if c['google_rating']])
+    pct_rated = int(rated_count / len(comps) * 100) if comps else 0
+
+    # Top company for this metro
+    top_company = sorted_comps[0] if sorted_comps else None
+    top_name = top_company['name'] if top_company and top_company.get('google_rating') else None
+    top_rating = top_company['google_rating'] if top_company else None
+    top_reviews = top_company['google_review_count'] if top_company else None
+
+    # Unique intro paragraph
+    if top_count > 0:
+        intro = f'Looking for a trustworthy estate sale company in {metro}, Florida? We\'ve compiled {len(comps)} companies serving the {metro} area, {top_count} of which are rated 4.5 stars or higher on Google. All ratings are verified directly from Google Reviews so you can hire with confidence.'
+        if top_name and top_rating:
+            intro += f' {top_name} is currently one of the top-rated companies in {metro} with a {top_rating}-star rating'
+            if top_reviews:
+                intro += f' across {top_reviews} Google reviews'
+            intro += '.'
+    else:
+        intro = f'Looking for an estate sale company in {metro}, Florida? We\'ve listed {len(comps)} companies serving the {metro} area. Contact them directly using the information below to compare availability and commission rates.'
+
+    faq_html = f'''<div class="faq" style="margin-top:40px; background:white; border:1px solid #e0e0e0; border-radius:10px; padding:24px;">
+  <h2 style="color:#004d40; margin-bottom:16px;">Hiring an Estate Sale Company in {metro}: What You Need to Know</h2>
+  <div style="margin-bottom:16px;">
+    <h3 style="font-size:1rem; margin-bottom:6px;">How do estate sale companies in {metro} charge?</h3>
+    <p style="color:#555; line-height:1.6;">Most estate sale companies charge a commission of 25%–40% of total sales. Some may also charge setup fees or minimum guarantees. Always ask for a written contract before signing.</p>
+  </div>
+  <div style="margin-bottom:16px;">
+    <h3 style="font-size:1rem; margin-bottom:6px;">How do I choose the best estate sale company in {metro}?</h3>
+    <p style="color:#555; line-height:1.6;">Look for companies with strong Google ratings and a high number of reviews — this shows a consistent track record. Ask how they price items, how they advertise sales, and whether they handle cleanup afterward.</p>
+  </div>
+  <div>
+    <h3 style="font-size:1rem; margin-bottom:6px;">How far in advance should I book an estate sale company in {metro}?</h3>
+    <p style="color:#555; line-height:1.6;">Top-rated companies in {metro} can book up 4–8 weeks in advance, especially during busy seasons (spring and fall). Contact several companies as early as possible to compare availability and commission rates.</p>
+  </div>
+</div>'''
+
+    body = f'''<div style="background:white; border:1px solid #e0e0e0; border-radius:10px; padding:20px 24px; margin-bottom:24px;">
+  <h1 style="color:#004d40; font-size:1.4rem; margin-bottom:10px;">Estate Sale Companies in {metro}, FL</h1>
+  <p style="color:#555; line-height:1.7; margin-bottom:8px;">{intro}</p>
+  <p style="font-size:0.85rem; color:#888;">{len(comps)} companies listed &bull; {top_count} rated 4.5★ or higher &bull; {rated_count} with Google ratings ({pct_rated}%)</p>
+</div>
+<div class="company-grid">'''
     for c in sorted_comps:
         body += company_card(c)
     body += '</div>'
-    
+    body += faq_html
+
     with open(f'docs/florida/{slug}/index.html', 'w', encoding='utf-8') as f:
         f.write(page(f'Estate Sale Companies in {metro}, FL | EstateSaleRatings.com', body,
-                     f'Find the best estate sale companies in {metro}, Florida. {top_count} companies rated 4.5 stars or higher on Google.'))
+                     f'Find the best estate sale companies in {metro}, Florida. {top_count} companies rated 4.5 stars or higher on Google.', canonical_path=f'/florida/{slug}/'))
 
 # -----------------------------
 # 9️⃣ Add .nojekyll for GitHub Pages
