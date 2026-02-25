@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EstateSaleRatings.com - Find Top-Rated Estate Sale Companies</title>
+<meta name="description" content="Find top-rated estate sale companies near you. Verified Google ratings for 1,500+ companies across Florida.">
+<link rel="canonical" href="https://estatesaleratings.com/">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #f4f6f8; color: #1a1a1a; }
+
+header { background: #004d40; color: white; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+header h1 { font-size: 1.5rem; }
+header p { font-size: 0.85rem; opacity: 0.8; }
+nav a { color: #e0f2f1; text-decoration: none; margin-left: 16px; font-size: 0.9rem; }
+nav a:hover { color: white; text-decoration: underline; }
+
+.hero {
+  background: linear-gradient(135deg, #004d40 0%, #00695c 100%);
+  color: white;
+  padding: 48px 16px 40px;
+  text-align: center;
+}
+.hero h2 { font-size: 1.9rem; margin-bottom: 10px; line-height: 1.3; }
+.hero p { font-size: 1rem; opacity: 0.88; max-width: 540px; margin: 0 auto 28px; line-height: 1.5; }
+
+.city-picker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.autocomplete-wrapper { position: relative; flex: 1; min-width: 220px; }
+.autocomplete-wrapper input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 1.05rem;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  color: #1a1a1a;
+}
+.autocomplete-list {
+  position: absolute;
+  top: 100%; left: 0; right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  max-height: 240px;
+  overflow-y: auto;
+  z-index: 100;
+  display: none;
+  text-align: left;
+}
+.autocomplete-list div {
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: #1a1a1a;
+}
+.autocomplete-list div:hover,
+.autocomplete-list div.active { background: #e0f2f1; }
+
+.city-picker button {
+  padding: 14px 28px;
+  background: #fbc02d;
+  color: #1a1a1a;
+  font-weight: bold;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.city-picker button:hover { background: #f9a825; }
+.hero-stats { margin-top: 20px; font-size: 0.85rem; opacity: 0.75; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 24px 16px; }
+
+.secondary-filters {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+}
+.filter-group { display: flex; flex-direction: column; gap: 4px; min-width: 160px; flex: 1; }
+.filter-group label { font-size: 0.78rem; color: #666; font-weight: bold; text-transform: uppercase; letter-spacing: 0.03em; }
+.filter-group select,
+.filter-group input {
+  padding: 8px 10px;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: white;
+}
+.clear-btn {
+  padding: 8px 16px;
+  background: #eee;
+  color: #555;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  align-self: flex-end;
+  white-space: nowrap;
+}
+.clear-btn:hover { background: #ddd; }
+
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.results-count { color: #555; font-size: 0.9rem; }
+.results-title { font-size: 1.1rem; font-weight: bold; color: #004d40; }
+
+.company-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
+
+.company-card {
+  background: white;
+  border-radius: 10px;
+  padding: 18px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+  transition: transform 0.15s, box-shadow 0.15s;
+  position: relative;
+}
+.company-card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.09); }
+.company-card img { max-width: 64px; max-height: 64px; object-fit: contain; margin-bottom: 10px; display: block; border-radius: 4px; }
+.badge {
+  position: absolute; top: 14px; right: 14px;
+  background: #e8f5e9; color: #2e7d32;
+  font-size: 0.7rem; padding: 3px 8px;
+  border-radius: 20px; font-weight: bold;
+}
+.company-card h3 { color: #004d40; font-size: 0.98rem; margin-bottom: 3px; padding-right: 70px; line-height: 1.3; }
+.location { font-size: 0.82rem; color: #777; margin-bottom: 10px; }
+.rating-row { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+.stars { color: #fbc02d; font-size: 1.05rem; letter-spacing: 1px; }
+.rating-num { font-weight: bold; font-size: 0.95rem; color: #333; }
+.review-count { font-size: 0.78rem; color: #999; }
+.unrated { color: #bbb; font-size: 0.82rem; font-style: italic; }
+.contact { font-size: 0.82rem; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 4px; }
+.contact a { color: #00796b; text-decoration: none; background: #e0f2f1; padding: 3px 8px; border-radius: 4px; }
+.contact a:hover { background: #b2dfdb; }
+.phone { color: #555; }
+
+.no-results { grid-column: 1/-1; text-align: center; color: #888; padding: 60px 0; font-size: 1rem; }
+
+.pagination { display: flex; justify-content: center; gap: 6px; margin-top: 32px; flex-wrap: wrap; }
+.pagination button { padding: 8px 14px; border: 1px solid #ccc; background: white; border-radius: 6px; cursor: pointer; font-size: 0.88rem; }
+.pagination button.active { background: #004d40; color: white; border-color: #004d40; }
+.pagination button:hover:not(.active) { background: #f0f0f0; }
+
+footer { background: #004d40; color: #b2dfdb; text-align: center; padding: 24px 16px; margin-top: 56px; font-size: 0.85rem; line-height: 1.8; }
+footer a { color: #e0f2f1; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>EstateSaleRatings.com</h1>
+    <p>Find top-rated estate sale companies near you</p>
+  </div>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/florida/">Florida</a>
+    <a href="/how-to-hire-an-estate-sale-company/">Hiring Guide</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h2>Find the Best Estate Sale Company<br>in Your Area</h2>
+  <p>We've verified Google ratings for 1,500+ Florida companies so you can hire with confidence during a stressful time.</p>
+  <div class="city-picker">
+    <div class="autocomplete-wrapper">
+      <input type="text" id="heroCityInput" placeholder="📍 Type your city or metro area..." autocomplete="off">
+      <div class="autocomplete-list" id="autocompleteList"></div>
+    </div>
+    <button onclick="applyFilters()">Show Companies</button>
+  </div>
+  <div class="hero-stats" id="heroStats"></div>
+</div>
+
+<div class="container">
+
+  <div class="secondary-filters">
+    <div class="filter-group">
+      <label for="searchFilter">Search by name</label>
+      <input type="text" id="searchFilter" placeholder="Company name..." oninput="applyFilters()">
+    </div>
+    <div class="filter-group">
+      <label for="ratingFilter">Min rating</label>
+      <select id="ratingFilter" onchange="applyFilters()">
+        <option value="">Any rating</option>
+        <option value="5">5★ only</option>
+        <option value="4.5">4.5★ and above</option>
+        <option value="4">4★ and above</option>
+        <option value="rated">Rated only</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="sortFilter">Sort by</label>
+      <select id="sortFilter" onchange="applyFilters()">
+        <option value="rating">Highest rated</option>
+        <option value="reviews">Most reviewed</option>
+        <option value="name">Name (A–Z)</option>
+      </select>
+    </div>
+    <button class="clear-btn" onclick="clearFilters()">✕ Clear all</button>
+  </div>
+
+  <div class="results-header">
+    <div class="results-title" id="resultsTitle">Top-Rated Estate Sale Companies in Florida</div>
+    <div class="results-count" id="resultsCount"></div>
+  </div>
+
+  <div class="company-grid" id="companyGrid"></div>
+  <div class="pagination" id="pagination"></div>
+
+</div>
+
+<div style="background:#004d40; color:white; padding:40px 16px; margin-top:48px;">
+  <div style="max-width:1200px; margin:0 auto;">
+    <h2 style="font-size:1.3rem; margin-bottom:8px;">Browse Estate Sale Companies by Florida City</h2>
+    <p style="opacity:0.8; font-size:0.9rem; margin-bottom:24px;">Select your metro area to see all companies and ratings</p>
+    <div id="cityBrowseGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(180px,1fr)); gap:10px;"></div>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2026 EstateSaleRatings.com &mdash; <a href="/">Home</a> | <a href="/florida/">Florida Directory</a> | <a href="/how-to-hire-an-estate-sale-company/">Hiring Guide</a></p>
+  <p>Ratings sourced from Google. Company data from public listings. Not affiliated with any estate sale company.</p>
+</footer>
+
+<script src="companies.js"></script>
+<script>
+const PER_PAGE = 48;
+let currentPage = 1;
+let filteredCompanies = [];
+let selectedCity = '';
+let allCities = [];
+
+// Build city list
+function initCities() {
+  allCities = [...new Set(allCompanies.map(c => c.cityName).filter(Boolean))].sort();
+}
+
+// Autocomplete logic
+const cityInput = document.getElementById('heroCityInput');
+const acList = document.getElementById('autocompleteList');
+let acIndex = -1;
+
+cityInput.addEventListener('input', function() {
+  const val = this.value.trim().toLowerCase();
+  acIndex = -1;
+  if (!val) {
+    acList.style.display = 'none';
+    selectedCity = '';
+    applyFilters();
+    return;
+  }
+  const matches = allCities.filter(c => c.toLowerCase().includes(val)).slice(0, 8);
+  if (matches.length === 0) { acList.style.display = 'none'; return; }
+  acList.innerHTML = matches.map(c => {
+    const count = allCompanies.filter(co => co.cityName === c).length;
+    return '<div data-city="' + c + '">' + c + ' <span style="color:#aaa;font-size:0.8rem">(' + count + ' companies)</span></div>';
+  }).join('');
+  acList.style.display = 'block';
+  acList.querySelectorAll('div').forEach(div => {
+    div.addEventListener('click', function() {
+      cityInput.value = this.dataset.city;
+      selectedCity = this.dataset.city;
+      acList.style.display = 'none';
+      applyFilters();
+    });
+  });
+});
+
+cityInput.addEventListener('keydown', function(e) {
+  const items = acList.querySelectorAll('div');
+  if (e.key === 'ArrowDown') { acIndex = Math.min(acIndex + 1, items.length - 1); }
+  else if (e.key === 'ArrowUp') { acIndex = Math.max(acIndex - 1, 0); }
+  else if (e.key === 'Enter') {
+    if (acIndex >= 0 && items[acIndex]) {
+      cityInput.value = items[acIndex].dataset.city;
+      selectedCity = items[acIndex].dataset.city;
+    } else {
+      selectedCity = cityInput.value.trim();
+    }
+    acList.style.display = 'none';
+    applyFilters();
+    return;
+  } else { return; }
+  items.forEach((d, i) => d.classList.toggle('active', i === acIndex));
+});
+
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.autocomplete-wrapper')) acList.style.display = 'none';
+});
+
+function applyFilters() {
+  const city = selectedCity || cityInput.value.trim();
+  const search = document.getElementById('searchFilter').value.toLowerCase().trim();
+  const ratingVal = document.getElementById('ratingFilter').value;
+  const sort = document.getElementById('sortFilter').value;
+
+  filteredCompanies = allCompanies.filter(c => {
+    if (city && c.cityName.toLowerCase() !== city.toLowerCase()) return false;
+    if (search && !c.name.toLowerCase().includes(search)) return false;
+    if (ratingVal === 'rated') { if (!c.rating) return false; }
+    else if (ratingVal) { if (!c.rating || c.rating < parseFloat(ratingVal)) return false; }
+    return true;
+  });
+
+  function bayesian(c) {
+    var r = c.rating || 0;
+    var n = c.reviewCount || 0;
+    if (!r) return 0;
+    return (n / (n + 10)) * r + (10 / (n + 10)) * 4.0;
+  }
+  filteredCompanies.sort((a, b) => {
+    if (sort === 'rating') return bayesian(b) - bayesian(a);
+    if (sort === 'reviews') return (b.reviewCount || 0) - (a.reviewCount || 0);
+    return a.name.localeCompare(b.name);
+  });
+
+  document.getElementById('resultsTitle').textContent = city
+    ? 'Estate Sale Companies in ' + city + ', FL'
+    : 'Top-Rated Estate Sale Companies in Florida';
+
+  currentPage = 1;
+  renderPage();
+}
+
+function renderPage() {
+  const grid = document.getElementById('companyGrid');
+  const start = (currentPage - 1) * PER_PAGE;
+  const pageItems = filteredCompanies.slice(start, start + PER_PAGE);
+  const total = filteredCompanies.length;
+
+  document.getElementById('resultsCount').textContent = total > 0
+    ? 'Showing ' + (start + 1) + '\u2013' + Math.min(start + PER_PAGE, total) + ' of ' + total + ' companies'
+    : '';
+
+  if (total === 0) {
+    grid.innerHTML = '<div class="no-results">No companies found. Try clearing some filters.</div>';
+    document.getElementById('pagination').innerHTML = '';
+    return;
+  }
+
+  grid.innerHTML = pageItems.map(function(c) {
+    const rating = c.rating || 0;
+    const reviews = c.reviewCount || 0;
+    const isTopRated = rating >= 4.5 && reviews >= 10;
+    const fullStars = '★'.repeat(Math.floor(rating));
+    const halfStar = (rating % 1 >= 0.5) ? '½' : '';
+    const ratingHtml = rating
+      ? '<span class="stars">' + fullStars + halfStar + '</span><span class="rating-num">' + rating + '</span><span class="review-count">(' + reviews + ' reviews)</span>'
+      : '<span class="unrated">Not rated on Google</span>';
+
+    return '<div class="company-card">'
+      + (isTopRated ? '<span class="badge">&#11088; Top Rated</span>' : '')
+      + (c.logoUrl ? '<img src="' + c.logoUrl + '" alt="' + c.name + '" loading="lazy">' : '')
+      + '<h3>' + c.name + '</h3>'
+      + '<div class="location">&#128205; ' + c.cityName + ', ' + c.stateCode + '</div>'
+      + '<div class="rating-row">' + ratingHtml + '</div>'
+      + '<div class="contact">'
+      + (c.phoneNumber ? '<span class="phone">&#128222; ' + c.phoneNumber + '</span>' : '')
+      + (c.websiteUrl ? '<a href="' + c.websiteUrl + '" target="_blank" rel="nofollow">&#127760; Website</a>' : '')
+      + '</div>'
+      + '</div>';
+  }).join('');
+
+  renderPagination();
+}
+
+function renderPagination() {
+  const totalPages = Math.ceil(filteredCompanies.length / PER_PAGE);
+  const pag = document.getElementById('pagination');
+  if (totalPages <= 1) { pag.innerHTML = ''; return; }
+  let html = '';
+  if (currentPage > 1) html += '<button onclick="goTo(' + (currentPage - 1) + ')">&#8592; Prev</button>';
+  for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) {
+    html += '<button class="' + (i === currentPage ? 'active' : '') + '" onclick="goTo(' + i + ')">' + i + '</button>';
+  }
+  if (currentPage < totalPages) html += '<button onclick="goTo(' + (currentPage + 1) + ')">Next &#8594;</button>';
+  pag.innerHTML = html;
+}
+
+function goTo(p) {
+  currentPage = p;
+  renderPage();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function clearFilters() {
+  cityInput.value = '';
+  selectedCity = '';
+  document.getElementById('searchFilter').value = '';
+  document.getElementById('ratingFilter').value = '';
+  document.getElementById('sortFilter').value = 'rating';
+  acList.style.display = 'none';
+  applyFilters();
+}
+
+function updateHeroStats() {
+  const total = allCompanies.length;
+  const topRated = allCompanies.filter(c => c.rating >= 4.5 && c.reviewCount >= 10).length;
+  document.getElementById('heroStats').textContent =
+    total.toLocaleString() + ' companies listed \u00b7 ' + topRated + ' rated 4.5\u2605 or higher';
+}
+
+initCities();
+updateHeroStats();
+applyFilters();
+buildCityGrid();
+
+function buildCityGrid() {
+  const metroCounts = {};
+  const metroTopRated = {};
+  allCompanies.forEach(c => {
+    const city = c.cityName;
+    if (!city) return;
+    metroCounts[city] = (metroCounts[city] || 0) + 1;
+    if (c.rating >= 4.5 && c.reviewCount >= 10) {
+      metroTopRated[city] = (metroTopRated[city] || 0) + 1;
+    }
+  });
+  const cities = Object.entries(metroCounts).sort((a, b) => b[1] - a[1]);
+  const grid = document.getElementById('cityBrowseGrid');
+  if (!grid) return;
+  grid.innerHTML = cities.map(([city, count]) => {
+    const slug = city.toLowerCase().replace(/ \/ /g, '-').replace(/\//g, '-').replace(/ /g, '-').replace(/,/g, '');
+    const topRated = metroTopRated[city] || 0;
+    return '<a href="/florida/' + slug + '/" style="display:block;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:12px 14px;text-decoration:none;color:white;" onmouseover="this.style.background=\'rgba(255,255,255,0.2)\'" onmouseout="this.style.background=\'rgba(255,255,255,0.1)\'">'
+      + '<div style="font-weight:bold;font-size:0.9rem;">' + city + '</div>'
+      + '<div style="font-size:0.78rem;opacity:0.75;margin-top:3px;">' + count + ' companies' + (topRated ? ' · ' + topRated + ' top rated' : '') + '</div>'
+      + '</a>';
+  }).join('');
+}
+</script>
+
+</body>
+</html>

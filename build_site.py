@@ -239,6 +239,28 @@ for metro, comps in metros.items():
 # -----------------------------
 open('docs/.nojekyll', 'w').close()
 
+# -----------------------------
+# 🔟 Generate sitemap.xml
+# -----------------------------
+from datetime import date
+today = date.today().strftime('%Y-%m-%d')
+
+sitemap_urls = []
+sitemap_urls.append(f'  <url><loc>https://estatesaleratings.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority><lastmod>{today}</lastmod></url>')
+sitemap_urls.append(f'  <url><loc>https://estatesaleratings.com/florida/</loc><changefreq>weekly</changefreq><priority>0.9</priority><lastmod>{today}</lastmod></url>')
+sitemap_urls.append(f'  <url><loc>https://estatesaleratings.com/how-to-hire-an-estate-sale-company/</loc><changefreq>monthly</changefreq><priority>0.8</priority><lastmod>{today}</lastmod></url>')
+
+for metro, slug in metro_slugs.items():
+    sitemap_urls.append(f'  <url><loc>https://estatesaleratings.com/florida/{slug}/</loc><changefreq>monthly</changefreq><priority>0.7</priority><lastmod>{today}</lastmod></url>')
+
+sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+sitemap += '\n'.join(sitemap_urls)
+sitemap += '\n</urlset>'
+
+with open('docs/sitemap.xml', 'w', encoding='utf-8') as f:
+    f.write(sitemap)
+print(f'  - sitemap.xml ({len(sitemap_urls)} URLs)')
+
 print(f"Site built! Pages created:")
 print(f"  - Homepage")
 print(f"  - Florida state page")
